@@ -21,8 +21,8 @@ const styles = {
     justifyContent: 'space-around',
   },
   gridList: {
-    width: 500,
-    height: 450,
+    width: 900,
+    height: 1200,
     overflowY: 'auto',
   },
 };
@@ -59,28 +59,28 @@ const tilesData = [{
     img: 'https://imgur.com/L0YxxKO.jpg',
     title: 'Jay5',
     author: 'Hans',
-    level: 5,
+    level: 2,
     time: 5,
   },
   {
     img: 'https://imgur.com/H3Ueac8.jpg',
     title: 'Jay6',
     author: 'fancycravel',
-    level: 6,
+    level: 1,
     time: 6,
   },
   {
     img: 'https://imgur.com/BDFh88h.jpg',
     title: 'Jay7',
     author: 'jill111',
-    level: 7,
+    level: 4,
     time: 7,
   },
   {
     img: 'https://imgur.com/DF9Qlrh.jpg',
     title: 'Jay8',
     author: 'BkrmadtyaKarki',
-    level: 8,
+    level: 3,
     time: 8,
   },
 ];
@@ -133,7 +133,7 @@ export default class GridListExampleSimple extends React.Component {
             <MenuItem value={3} primaryText="Hardiest" />
           </DropDownMenu>
           <GridList
-            cellHeight={240}
+            cellHeight={400}
             style={styles.gridList}
           >
             <Subheader>Jay's music</Subheader>
@@ -146,7 +146,6 @@ export default class GridListExampleSimple extends React.Component {
                   <span>by <b>{tile.author}</b></span>
                   <div>Level: <b>{tile.level}</b></div>
                   </div>}
-                // actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
               >
                 <img src={tile.img} />
               </GridTile>
