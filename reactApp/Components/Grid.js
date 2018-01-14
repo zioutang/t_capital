@@ -21,7 +21,7 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'baseline',
-  },
+  }
 };
 
 const tilesData = [{
@@ -177,7 +177,6 @@ export default class GridListExampleSimple extends React.Component {
   render() {
     return (
       <div>
-        <div>
           <Drawer
             openSecondary={true}
             docked={false}
@@ -215,7 +214,6 @@ export default class GridListExampleSimple extends React.Component {
           </div>
           <GridList
             cellHeight={240}
-            style={styles.gridList}
           >
             <Subheader>Jay's music</Subheader>
             {this.state.data.map((tile, id) => (
@@ -242,7 +240,6 @@ export default class GridListExampleSimple extends React.Component {
             onClose={this.closeLightbox}
       />
         </div>
-      </div>
     )
   }
 }
