@@ -9,7 +9,6 @@ import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
 import Lightbox from 'react-images';
 const styles = {
@@ -27,76 +26,68 @@ const styles = {
 const tilesData = [{
     src: 'https://imgur.com/ovNlwDV.jpg',
     title: 'Jay1',
-    author: 'jill111',
     level: 3,
-    time: 1,
+    time: '2018',
   },
   {
     src: 'https://imgur.com/KnqSIuu.jpg',
     title: 'Jay2',
-    author: 'pashminu',
     level: 3,
-    time: 2,
+    time: '2017',
   },
   {
     src: 'https://imgur.com/Z3l7Uvj.jpg',
     title: 'Jay3',
-    author: 'Danson67',
     level: 2,
-    time: 3,
+    time: '2016',
   },
   {
     src: 'https://imgur.com/BtMWTln.jpg',
     title: 'Jay4',
-    author: 'fancycrave1',
     level: 4,
-    time: 4,
+    time: '2015',
   },
   {
     src: 'https://imgur.com/L0YxxKO.jpg',
     title: 'Jay5',
-    author: 'Hans',
     level: 2,
-    time: 5,
+    time: '2014',
   },
   {
     src: 'https://imgur.com/H3Ueac8.jpg',
     title: 'Jay6',
-    author: 'fancycravel',
     level: 1,
-    time: 6,
+    time: '2013',
   },
   {
     src: 'https://imgur.com/BDFh88h.jpg',
     title: 'Jay7',
-    author: 'jill111',
     level: 4,
-    time: 7,
+    time: '2012',
   },
   {
     src: 'https://imgur.com/DF9Qlrh.jpg',
     title: 'Jay8',
-    author: 'BkrmadtyaKarki',
     level: 3,
-    time: 8,
+    time: '2011',
   },
 ];
 
 /**
  * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
  */
-export default class GridListExampleSimple extends React.Component {
+export default class Grid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 1,
       data: tilesData,
-      open: false,
+      DrawerOpen: false,
       label: 'Newest',
       lightboxIsOpen: false,
       currentImage: 0
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSort = this.handleSort.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.openLightbox = this.openLightbox.bind(this);
@@ -107,27 +98,34 @@ export default class GridListExampleSimple extends React.Component {
 
   handleToggle() {
     this.setState({
-      open: !this.state.open,
+      DrawerOpen: !this.state.DrawerOpen,
     });
   }
-  handleChange(value, event) {
+  handleSort(value, event) {
     let newList = [];
     let label = '';
     if (value === 1) {
       this.state.data.sort((a, b) => {
-        return a.time - b.time;
+        return b.time.localeCompare(a.time);
       })
       newList = this.state.data;
       label = 'Newest';
     }
     if (value === 2) {
       this.state.data.sort((a, b) => {
+        return a.time.localeCompare(b.time);
+      })
+      newList = this.state.data;
+      label = 'Oldest';
+    }
+    if (value === 3) {
+      this.state.data.sort((a, b) => {
         return a.level - b.level;
       })
       newList = this.state.data;
       label = 'Easiest';
     }
-    if (value === 3) {
+    if (value === 4) {
       this.state.data.sort((a, b) => {
         return b.level - a.level;
       })
@@ -137,7 +135,7 @@ export default class GridListExampleSimple extends React.Component {
     this.setState({
       value: value,
       data: newList,
-      open: false,
+      DrawerOpen: false,
       label: label
     });
   }
@@ -181,7 +179,7 @@ export default class GridListExampleSimple extends React.Component {
             openSecondary={true}
             docked={false}
             width={'100%'}
-            open={this.state.open}
+            open={this.state.DrawerOpen}
             onRequestChange={(open) => this.setState({open})}
             disableSwipeToOpen={true}
           >
@@ -193,9 +191,10 @@ export default class GridListExampleSimple extends React.Component {
               primary={true}
             />
           </div>
-            <MenuItem style={styles.center} onClick={this.handleChange.bind(this, 1)}>Newest</MenuItem>
-            <MenuItem style={styles.center} onClick={this.handleChange.bind(this, 2)}>Easiest</MenuItem>
-            <MenuItem style={styles.center} onClick={this.handleChange.bind(this, 3)}>Hardiest</MenuItem>
+            <MenuItem style={styles.center} onClick={this.handleSort.bind(this, 1)}>Newest</MenuItem>
+            <MenuItem style={styles.center} onClick={this.handleSort.bind(this, 2)}>Oldest</MenuItem>
+            <MenuItem style={styles.center} onClick={this.handleSort.bind(this, 3)}>Easiest</MenuItem>
+            <MenuItem style={styles.center} onClick={this.handleSort.bind(this, 4)}>Hardiest</MenuItem>
           </Drawer>
           <div style={styles.bar}>
             <TextField
@@ -203,18 +202,17 @@ export default class GridListExampleSimple extends React.Component {
               onChange={this.handleSearch.bind(this)}
             />
             <div style={styles.bar}>
-              <p>Sort by:</p>
+              <p>Sort by :</p>
               <FlatButton
                 label={this.state.label}
                 onClick={this.handleToggle}
                 primary={true}
-                style={styles.test1}
+                hoverColor='white'
+                disableTouchRipple={true}
               />
             </div>
           </div>
-          <GridList
-            cellHeight={240}
-          >
+          <GridList cellHeight={240}>
             <Subheader>Jay's music</Subheader>
             {this.state.data.map((tile, id) => (
               <GridTile
@@ -223,7 +221,7 @@ export default class GridListExampleSimple extends React.Component {
                 onClick={this.openLightbox.bind(this, id)}
                 subtitle={
                   <div>
-                    <div><b>by: {tile.author}</b></div>
+                    <div><b>Upload: {tile.time}</b></div>
                     <div><b>Difficulty: {tile.level}</b></div>
                   </div>
                   }>
@@ -238,11 +236,11 @@ export default class GridListExampleSimple extends React.Component {
             onClickPrev={this.gotoPrevious}
             onClickNext={this.gotoNext}
             onClose={this.closeLightbox}
-      />
+          />
         </div>
     )
   }
 }
 module.exports = {
-  GridListExampleSimple
+  Grid
 };

@@ -5,10 +5,12 @@ A demo can be viewed [here](https://mysterious-mesa-57025.herokuapp.com/)
 
 ## Installation
 
-`npm install`
-`npm start`
-
-The server should run on port 3000
+```
+npm install
+npm start
+```
+Then open [`localhost:3000`](http://localhost:3000) in a browser.
 
 ## Notes
 I used onChange method on the search bar to deliver the constant search result while user is typing.
+The light box also supports keyboard control.

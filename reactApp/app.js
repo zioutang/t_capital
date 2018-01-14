@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
-  GridListExampleSimple
+  Grid
 } from './Components/Grid.js';
 
 
 ReactDOM.render(
   <MuiThemeProvider>
-    <GridListExampleSimple />
+    <Grid />
   </MuiThemeProvider>,
   document.getElementById('root'));
