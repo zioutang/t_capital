@@ -29,6 +29,7 @@
     "react-dom": "^15.6.1",
     "react-images": "^0.5.14",
     "react-imageview": "^1.2.1",
+    "react-lightbox-component": "^0.2.0",
     "webpack": "^2.6.1"
   },
   "devDependencies": {

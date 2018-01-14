@@ -11,72 +11,70 @@ import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
-
+import Lightbox from 'react-images';
 const styles = {
-  root: {
-    // display: 'flex',
-    // flexWrap: 'wrap',
-    // justifyContent: 'space-around',
+  center: {
+    'textAlign': 'center'
   },
-  gridList: {
-    // width: 900,
-    // height: 1200,
-    // display: 'flex',
-    // overflowY: 'auto',
+  bar: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
   },
 };
 
 const tilesData = [{
-    img: 'https://imgur.com/ovNlwDV.jpg',
+    src: 'https://imgur.com/ovNlwDV.jpg',
     title: 'Jay1',
     author: 'jill111',
     level: 3,
     time: 1,
   },
   {
-    img: 'https://imgur.com/KnqSIuu.jpg',
+    src: 'https://imgur.com/KnqSIuu.jpg',
     title: 'Jay2',
     author: 'pashminu',
     level: 3,
     time: 2,
   },
   {
-    img: 'https://imgur.com/Z3l7Uvj.jpg',
+    src: 'https://imgur.com/Z3l7Uvj.jpg',
     title: 'Jay3',
     author: 'Danson67',
     level: 2,
     time: 3,
   },
   {
-    img: 'https://imgur.com/BtMWTln.jpg',
+    src: 'https://imgur.com/BtMWTln.jpg',
     title: 'Jay4',
     author: 'fancycrave1',
     level: 4,
     time: 4,
   },
   {
-    img: 'https://imgur.com/L0YxxKO.jpg',
+    src: 'https://imgur.com/L0YxxKO.jpg',
     title: 'Jay5',
     author: 'Hans',
     level: 2,
     time: 5,
   },
   {
-    img: 'https://imgur.com/H3Ueac8.jpg',
+    src: 'https://imgur.com/H3Ueac8.jpg',
     title: 'Jay6',
     author: 'fancycravel',
     level: 1,
     time: 6,
   },
   {
-    img: 'https://imgur.com/BDFh88h.jpg',
+    src: 'https://imgur.com/BDFh88h.jpg',
     title: 'Jay7',
     author: 'jill111',
     level: 4,
     time: 7,
   },
   {
-    img: 'https://imgur.com/DF9Qlrh.jpg',
+    src: 'https://imgur.com/DF9Qlrh.jpg',
     title: 'Jay8',
     author: 'BkrmadtyaKarki',
     level: 3,
@@ -94,12 +92,19 @@ export default class GridListExampleSimple extends React.Component {
       value: 1,
       data: tilesData,
       open: false,
-      label: 'Newest'
+      label: 'Newest',
+      lightboxIsOpen: false,
+      currentImage: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.openLightbox = this.openLightbox.bind(this);
+    this.closeLightbox = this.closeLightbox.bind(this);
+    this.gotoPrevious = this.gotoPrevious.bind(this);
+    this.gotoNext = this.gotoNext.bind(this);
   }
+
   handleToggle() {
     this.setState({
       open: !this.state.open,
@@ -145,9 +150,33 @@ export default class GridListExampleSimple extends React.Component {
       data: filter
     });
   }
+  closeLightbox() {
+    this.setState({
+      currentImage: 0,
+      lightboxIsOpen: false,
+    });
+  }
+  openLightbox(index, event) {
+    console.log(index);
+    event.preventDefault();
+    this.setState({
+      currentImage: index,
+      lightboxIsOpen: true,
+    });
+  }
+  gotoPrevious() {
+    this.setState({
+      currentImage: this.state.currentImage - 1,
+    });
+  }
+  gotoNext() {
+    this.setState({
+      currentImage: this.state.currentImage + 1,
+    });
+  }
   render() {
     return (
-      <div style={styles.root}>
+      <div>
         <div>
           <Drawer
             openSecondary={true}
@@ -157,46 +186,62 @@ export default class GridListExampleSimple extends React.Component {
             onRequestChange={(open) => this.setState({open})}
             disableSwipeToOpen={true}
           >
+            <div>
             <FlatButton
               label="Back"
               onClick={this.handleToggle}
+              icon={(<i className="material-icons">keyboard_arrow_left</i>)}
+              primary={true}
             />
-            <MenuItem onClick={this.handleChange.bind(this, 1)}>Newest</MenuItem>
-            <MenuItem onClick={this.handleChange.bind(this, 2)}>Easiest</MenuItem>
-            <MenuItem onClick={this.handleChange.bind(this, 3)}>Hardiest</MenuItem>
+          </div>
+            <MenuItem style={styles.center} onClick={this.handleChange.bind(this, 1)}>Newest</MenuItem>
+            <MenuItem style={styles.center} onClick={this.handleChange.bind(this, 2)}>Easiest</MenuItem>
+            <MenuItem style={styles.center} onClick={this.handleChange.bind(this, 3)}>Hardiest</MenuItem>
           </Drawer>
-          <div >
+          <div style={styles.bar}>
             <TextField
               floatingLabelText="Search"
               onChange={this.handleSearch.bind(this)}
             />
-            <span>   Sort by
-            <FlatButton
-              label={this.state.label}
-              onClick={this.handleToggle}
-            />
-            </span>
+            <div style={styles.bar}>
+              <p>Sort by:</p>
+              <FlatButton
+                label={this.state.label}
+                onClick={this.handleToggle}
+                primary={true}
+                style={styles.test1}
+              />
+            </div>
           </div>
           <GridList
-            cellHeight={400}
+            cellHeight={240}
             style={styles.gridList}
           >
             <Subheader>Jay's music</Subheader>
-            {this.state.data.map((tile) => (
+            {this.state.data.map((tile, id) => (
               <GridTile
-                key={tile.img}
-                title={tile.title}
+                key={id}
+                title={`Song Name: ${tile.title}`}
+                onClick={this.openLightbox.bind(this, id)}
                 subtitle={
                   <div>
-                  <span>by <b>{tile.author}</b></span>
-                  <div>Level: <b>{tile.level}</b></div>
-                  </div>}>
-                <img src={tile.img} />
+                    <div><b>by: {tile.author}</b></div>
+                    <div><b>Difficulty: {tile.level}</b></div>
+                  </div>
+                  }>
+                <img src={tile.src} />
               </GridTile>
             ))}
           </GridList>
+          <Lightbox
+            currentImage={this.state.currentImage}
+            images={this.state.data}
+            isOpen={this.state.lightboxIsOpen}
+            onClickPrev={this.gotoPrevious}
+            onClickNext={this.gotoNext}
+            onClose={this.closeLightbox}
+      />
         </div>
-
       </div>
     )
   }
