@@ -6,6 +6,7 @@ A demo can be viewed [here](https://mysterious-mesa-57025.herokuapp.com/)
 ## Installation
 
 `npm install`
+
 `npm start`
 
 The server should run on port 3000
