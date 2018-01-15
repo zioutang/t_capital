@@ -16749,7 +16749,7 @@ var Grid = function (_React$Component) {
     _this.state = {
       value: 1,
       data: tilesData,
-      open: false,
+      DrawerOpen: false,
       label: 'Newest',
       lightboxIsOpen: false,
       currentImage: 0
@@ -16768,7 +16768,7 @@ var Grid = function (_React$Component) {
     key: 'handleToggle',
     value: function handleToggle() {
       this.setState({
-        open: !this.state.open
+        DrawerOpen: !this.state.DrawerOpen
       });
     }
   }, {
@@ -16785,12 +16785,19 @@ var Grid = function (_React$Component) {
       }
       if (value === 2) {
         this.state.data.sort(function (a, b) {
+          return a.time.localeCompare(b.time);
+        });
+        newList = this.state.data;
+        label = 'Oldest';
+      }
+      if (value === 3) {
+        this.state.data.sort(function (a, b) {
           return a.level - b.level;
         });
         newList = this.state.data;
         label = 'Easiest';
       }
-      if (value === 3) {
+      if (value === 4) {
         this.state.data.sort(function (a, b) {
           return b.level - a.level;
         });
@@ -16800,7 +16807,7 @@ var Grid = function (_React$Component) {
       this.setState({
         value: value,
         data: newList,
-        open: false,
+        DrawerOpen: false,
         label: label
       });
     }
@@ -16861,7 +16868,7 @@ var Grid = function (_React$Component) {
             openSecondary: true,
             docked: false,
             width: '100%',
-            open: this.state.open,
+            open: this.state.DrawerOpen,
             onRequestChange: function onRequestChange(open) {
               return _this2.setState({ open: open });
             },
@@ -16889,11 +16896,16 @@ var Grid = function (_React$Component) {
           _react2.default.createElement(
             _MenuItem2.default,
             { style: styles.center, onClick: this.handleSort.bind(this, 2) },
-            'Easiest'
+            'Oldest'
           ),
           _react2.default.createElement(
             _MenuItem2.default,
             { style: styles.center, onClick: this.handleSort.bind(this, 3) },
+            'Easiest'
+          ),
+          _react2.default.createElement(
+            _MenuItem2.default,
+            { style: styles.center, onClick: this.handleSort.bind(this, 4) },
             'Hardiest'
           )
         ),
@@ -16910,21 +16922,20 @@ var Grid = function (_React$Component) {
             _react2.default.createElement(
               'p',
               null,
-              'Sort by:'
+              'Sort by :'
             ),
             _react2.default.createElement(_FlatButton2.default, {
               label: this.state.label,
               onClick: this.handleToggle,
               primary: true,
-              style: styles.test1
+              hoverColor: 'white',
+              disableTouchRipple: true
             })
           )
         ),
         _react2.default.createElement(
           _GridList.GridList,
-          {
-            cellHeight: 240
-          },
+          { cellHeight: 240 },
           _react2.default.createElement(
             _Subheader2.default,
             null,
@@ -17631,7 +17642,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _reactDom2.default.render(_react2.default.createElement(
   _MuiThemeProvider2.default,
   null,
-  _react2.default.createElement(GridListExampleSimple, null)
+  _react2.default.createElement(_Grid.Grid, null)
 ), document.getElementById('root'));
 
 /***/ }),
